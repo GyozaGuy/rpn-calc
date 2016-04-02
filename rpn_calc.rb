@@ -28,24 +28,36 @@ class RPNCalc
   def calc_loop
     loop do
       input = gets.chomp
-      if OPERATIONS.include? input
-        if @input_buffer.length >= 2
-          result = OPERATIONS[input].call(@input_buffer[-2..-1].map(&:to_f))
-          if result.nil?
-            puts 'Invalid operation!'
-          else
-            2.times { @input_buffer.pop }
-            @input_buffer.push(result.cleanup)
-            puts "> #{result.cleanup}"
-          end
-        end
-      elsif input.valid_num?
-        @input_buffer.push(input.to_number)
-        puts "> #{input}"
-      end
       break if input == 'q'
+      puts "> #{input(input)}"
     end
     stop
+  end
+
+  def input(input)
+    if OPERATIONS.include? input
+      calculate(input)
+    elsif input.valid_num?
+      @input_buffer.push(input.to_number)
+      input
+    end
+  end
+
+  def clear
+    @input_buffer.clear
+  end
+
+  def calculate(operation)
+    if @input_buffer.length >= 2
+      result = OPERATIONS[operation].call(@input_buffer[-2..-1].map(&:to_f))
+      if result.nil?
+        'Invalid operation!'
+      else
+        2.times { @input_buffer.pop }
+        @input_buffer.push(result.cleanup)
+        result.cleanup
+      end
+    end
   end
 end
 
@@ -71,6 +83,3 @@ class Float
     to_i == self ? to_i : self
   end
 end
-
-calc = RPNCalc.new
-calc.start
