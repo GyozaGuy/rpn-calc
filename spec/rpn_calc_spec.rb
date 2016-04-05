@@ -14,7 +14,7 @@ describe 'RPNCalc' do
     end
 
     context 'operations' do
-      # NOTE: since RPNCalc converts all input to floats, floats also need to be used here.
+      # NOTE: use floats since RPNCalc converts all input to floats
       before :each do
         @int_1 = rand_int
         @int_2 = rand_int
@@ -67,6 +67,13 @@ describe 'RPNCalc' do
     end
 
     context 'correctly passes tests from GitHub' do
+      it 'passes test 1' do
+        @calc.input('5')
+        @calc.input('8')
+        result = @calc.input('+')
+        expect(result).to eq 13
+      end
+
       it 'passes test 2' do
         @calc.input('-3')
         @calc.input('-2')
