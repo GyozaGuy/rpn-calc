@@ -27,19 +27,19 @@ class RPNCalc
 
   def calc_loop
     loop do
-      input = gets.chomp
-      break if input == 'q'
-      puts "> #{input(input)}"
+      num_string = gets.chomp
+      break if num_string == 'q'
+      puts "> #{input(num_string)}"
     end
     stop
   end
 
-  def input(input)
-    if OPERATIONS.include? input
-      calculate(input)
-    elsif input.valid_num?
-      @input_buffer.push(input.to_number)
-      input
+  def input(num_string)
+    if OPERATIONS.include? num_string
+      calculate(num_string)
+    elsif num_string.valid_num?
+      @input_buffer.push(num_string.to_number)
+      num_string
     end
   end
 
